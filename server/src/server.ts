@@ -1,6 +1,6 @@
 // src/server.ts
 import path from 'node:path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,10 +46,13 @@ async function startServer() {
 
   // Serve static assets in production
   if (process.env.NODE_ENV === 'production') {
-  const clientPath = path.join(__dirname, '../client/dist');
+  const clientPath = path.join(__dirname, '../../client/dist');
   app.use(express.static(clientPath));
-  app.get('*', (_req, res) => res.sendFile(path.join(clientPath, 'index.html')));
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(clientPath, 'index.html'));
+  });
 }
+
 
 
   // Keep REST routes if needed

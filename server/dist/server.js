@@ -47,9 +47,11 @@ async function startServer() {
     }));
     // Serve static assets in production
     if (process.env.NODE_ENV === 'production') {
-        app.use(express.static(path.join(__dirname, '../client/dist')));
-        app.get('*', (_req, res) => res.sendFile(path.join(__dirname, '../client/build/index.html')));
-    }
+    const clientPath = path.join(__dirname, '../client/dist');
+    app.use(express.static(clientPath));
+    app.get('*', (_req, res) => res.sendFile(path.join(clientPath, 'index.html')));
+}
+
     // Keep REST routes if needed
     app.use(routes);
     db.once('open', () => {

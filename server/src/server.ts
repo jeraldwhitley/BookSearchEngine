@@ -104,19 +104,15 @@ async function startServer() {
     })
   );
 
-  if (process.env.NODE_ENV === 'production') {
-    const clientPath = path.join(__dirname, '../../client/dist');
-    app.use(express.static(clientPath));
-  }
-
   app.use(routes);
 
   if (process.env.NODE_ENV === 'production') {
-    const clientPath = path.join(__dirname, '../../client/dist');
-    app.get('*', (_req, res) => {
-      res.sendFile(path.join(clientPath, 'index.html'));
-    });
-  }
+  const clientPath = path.join(__dirname, '../client/dist');
+  app.use(express.static(clientPath));
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(clientPath, 'index.html'));
+  });
+}
 
   db.once('open', () => {
     app.listen(PORT, () =>
